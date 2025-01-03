@@ -1,0 +1,32 @@
+[config]
+schemaVersion = "0.0.1"
+
+[general]
+repository = "https://thunderstore.io"
+
+[package]
+namespace = "XuXiaolan"
+name = "EeveeFrenzy"
+description = "I need to fill this in!"
+websiteUrl = "https://github.com/XuuXiao/EeveeFrenzy"
+containsNsfwContent = false
+[package.dependencies]
+BepInEx-BepInExPack = "5.4.2100"
+Evaisa-LethalLib = "0.16.1"
+IAmBatby-LethalLevelLoader = "1.3.8"
+
+[build]
+icon = "./icon.png"
+readme = "./README.md"
+outdir = "./Packages"
+
+[[build.copy]]
+source = "../EeveeFrenzy/bin/Release/netstandard2.1/EeveeFrenzy.dll"
+target = "plugins/EeveeFrenzy/"
+
+[[build.copy]]
+source = "../../EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeFrenzy/AssetBundles/eeveefrenzyassets"
+target = "plugins/EeveeFrenzy/Assets/"
+
+[[build.copy]]
+source = "../../EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeFrenzy/AssetBundl

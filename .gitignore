@@ -1,0 +1,17 @@
+# Ignore everything in the project
+EeveeFrenzyUnityProject/*
+EeveeFrenzyUnityProject/Assets/*
+EeveeFrenzyUnityProject/Assets/LethalCompany/*
+
+# Except the Assets/LethalCompany/Mods/plugins directories
+!EeveeFrenzyUnityProject/Assets/
+!EeveeFrenzyUnityProject/Assets/Editor/
+!EeveeFrenzyUnityProject/Assets/LethalCompany/
+!EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/
+!EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/**
+EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeFrenzy/main.unity.meta
+
+# Gitignore csproj.user so people use template instead.
+Plugin/EeveeFrenzy.csproj.user.template
+Plugin/dlls/Assembly-CSharp.dll
+Plugin/EeveeFrenzy/EeveeFrenzy.csproj.user
