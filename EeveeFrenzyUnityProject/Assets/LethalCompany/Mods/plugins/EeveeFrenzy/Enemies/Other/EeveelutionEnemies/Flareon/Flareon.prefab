@@ -3576,6 +3576,7 @@ GameObject:
   - component: {fileID: 7272517560317437025}
   - component: {fileID: 733683373066518236}
   - component: {fileID: 5962713969371198666}
+  - component: {fileID: 4125015745687878906}
   m_Layer: 19
   m_Name: Flareon
   m_TagString: Enemy
@@ -3638,9 +3639,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.58
   m_Speed: 8
-  m_Acceleration: 20
-  avoidancePriority: 50
-  m_AngularSpeed: 720
+  m_Acceleration: 40
+  avoidancePriority: 5
+  m_AngularSpeed: 1000
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -3648,7 +3649,7 @@ NavMeshAgent:
   m_Height: 1.03
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!114 &408135303296095626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3868,7 +3869,7 @@ MonoBehaviour:
   hitsPhysicsObjects: 0
   gotFarthestNodeAsync: 0
   smartAgentNavigator: {fileID: 5962713969371198666}
-  Acceleration: 20
+  Acceleration: 40
   WalkingSpeed: 4
   SprintingSpeed: 10
   MeleeDamage: 30
@@ -3917,6 +3918,27 @@ MonoBehaviour:
   m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &4125015745687878906
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516988742749213565}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.24252044, y: 0.27226478, z: 0.5}
+  m_Center: {x: 0.03292222, y: 0.35669684, z: 0}
 --- !u!1 &7578951080388344096
 GameObject:
   m_ObjectHideFlags: 0

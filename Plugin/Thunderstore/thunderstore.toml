@@ -7,7 +7,7 @@ repository = "https://thunderstore.io"
 [package]
 namespace = "XuXiaolan"
 name = "EeveeFrenzy"
-description = "I need to fill this in!"
+description = "Mod that adds 7 eeveelutions as new enemies!"
 websiteUrl = "https://github.com/XuuXiao/EeveeFrenzy"
 containsNsfwContent = false
 [package.dependencies]

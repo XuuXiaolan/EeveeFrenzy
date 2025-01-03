@@ -122,6 +122,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         }
         creatureVoice.PlayOneShot(SpawnSound);
         BaseOutsideOrInsideStart();
+        smartAgentNavigator.SetAllValues(isOutside);
         if (!IsServer) return;
         HandleStateAnimationSpeedChanges(State.Spawning);
         StartCoroutine(SpawnTimer());
@@ -342,6 +343,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     {
         if (holdingChild)
         {
+            Plugin.ExtendedLogging("Dropping child onto the ground at position: " + spawnPosition + " | Which is current inside: " + isSpawnInside);
             smartAgentNavigator.DoPathingToDestination(spawnPosition, isSpawnInside, false, null);
             if (Vector3.Distance(spawnPosition, this.transform.position) <= 2.5)
             {
@@ -366,13 +368,20 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     public void DoChasingPlayer()
     {
         // If the eevee is held by the player, keep chasing the player until the eevee is dropped
-        if (childEevee == null)
+        if (childEevee == null || targetPlayer == null || targetPlayer.isPlayerDead)
         {
-            Plugin.ExtendedLogging("Child eevee turned null somehow");
+            Plugin.ExtendedLogging("Child eevee turned null somehow or target player died/disappeared.");
+            SetTargetClientRpc(-1);
             HandleStateAnimationSpeedChanges(State.Wandering);
             return;
         }
 
+        if (Vector3.Distance(childEevee.transform.position, targetPlayer.transform.position) > 15)
+        {
+            SetTargetClientRpc(-1);
+            HandleStateAnimationSpeedChanges(State.Guarding);
+            return;
+        }
         smartAgentNavigator.DoPathingToDestination(targetPlayer.transform.position, targetPlayer.isInsideFactory, true, targetPlayer);
         if (Vector3.Distance(targetPlayer.transform.position, this.transform.position) <= 3)
         {
@@ -385,6 +394,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         base.HitEnemy(force, playerWhoHit, playHitSFX, hitID);
         
         creatureVoice.PlayOneShot(hitSounds[enemyRandom.Next(0, hitSounds.Length)]);
+        agent.velocity /= 1.4f;
         if (isEnemyDead || currentBehaviourStateIndex == (int)State.Death) return;
 
         enemyHP -= force;
@@ -440,6 +450,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
             DropChild(true);
         }
         if (childEevee != null) childEevee.mommyAlive = false;
+        smartAgentNavigator.ResetAllValues();
         creatureVoice.PlayOneShot(deathSounds[enemyRandom.Next(0, deathSounds.Length)]);
     }
 
@@ -566,12 +577,12 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     #region Animation Events
     public void PlayFootstepSound()
     {
-        creatureSFX.PlayOneShot(FootstepSounds[enemyRandom.Next(0, FootstepSounds.Length)]);
+        creatureSFX.PlayOneShot(FootstepSounds[enemyRandom.Next(0, FootstepSounds.Length)], 0.75f);
     } // Animation Event
 
     public void PlayFastFootstepSound()
     {
-        creatureSFX.PlayOneShot(FastFootstepSounds[enemyRandom.Next(0, FastFootstepSounds.Length)]);
+        creatureSFX.PlayOneShot(FastFootstepSounds[enemyRandom.Next(0, FastFootstepSounds.Length)], 0.75f);
     } // Animation Event
 
     public void OnSpecialAOEAttack()

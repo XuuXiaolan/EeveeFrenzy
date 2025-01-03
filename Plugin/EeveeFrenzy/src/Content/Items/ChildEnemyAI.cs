@@ -20,11 +20,21 @@ public class ChildEnemyAI : GrabbableObject
     public NetworkAnimator networkAnimator = null!;
     public SmartAgentNavigator smartAgentNavigator = null!;
     public float rangeOfDetection = 20f;
+    [Header("Sound and Audio")]
+    public AudioSource eeveeSource = null!;
+    public AudioClip spawnSound = null!;
+    public AudioClip[] hitSounds = [];
+    public AudioClip[] idleSounds = [];
+    public AudioClip[] idleHappySounds = [];
+    public AudioClip[] scaredSounds = [];
+    public AudioClip[] footstepSounds = [];
 
-    [NonSerialized] public ParentEnemyAI? parentEevee;
-    [NonSerialized] public int health = 4;
-    [NonSerialized] public bool mommyAlive = true;
-    [NonSerialized] public float[] friendShipMeterGoals = new float[3] { 0f, 20f, 50f };
+    [HideInInspector] public ParentEnemyAI? parentEevee;
+    [HideInInspector] public int health = 4;
+    [HideInInspector] public bool mommyAlive = true;
+    [HideInInspector] public float[] friendShipMeterGoals = new float[3] { 0f, 20f, 50f };
+    private float idleTimer = 0f;
+    private float idleHappyTimer = 0f;
     private Dictionary<PlayerControllerB, float> friendShipMeterPlayers = new Dictionary<PlayerControllerB, float>();
     private List<Vector3> scaryPositionsList = new();
     private float scaredTimer = 10f;
@@ -81,6 +91,7 @@ public class ChildEnemyAI : GrabbableObject
     public override void Start()
     {
         base.Start();
+        eeveeSource.PlayOneShot(spawnSound);
         fallTime = 0f;
         smartAgentNavigator.OnEnterOrExitElevator.AddListener(OnEnterOrExitElevator);
         smartAgentNavigator.OnUseEntranceTeleport.AddListener(OnUseEntranceTeleport);
@@ -325,7 +336,13 @@ public class ChildEnemyAI : GrabbableObject
     {
         if (!isSitting) sittingTimer -= Time.deltaTime;
         observationCheckTimer -= Time.deltaTime;
+        idleTimer -= Time.deltaTime;
 
+        if (idleTimer <= 0)
+        {
+            idleTimer = 4f;
+            eeveeSource.PlayOneShot(idleSounds[UnityEngine.Random.Range(0, idleSounds.Length)]);
+        }
         if (observationCheckTimer > 0) return;
         observationCheckTimer = 2f;
         PlayerControllerB? playerToFollow = DetectNearbyPlayer();
@@ -353,6 +370,13 @@ public class ChildEnemyAI : GrabbableObject
             SetTargetPlayerServerRpc(-1);
             HandleStateAnimationSpeedChanges(State.Wandering);
             return;
+        }
+        idleHappyTimer -= Time.deltaTime;
+
+        if (idleHappyTimer <= 0)
+        {
+            idleHappyTimer = 4f;
+            eeveeSource.PlayOneShot(idleHappySounds[UnityEngine.Random.Range(0, idleHappySounds.Length)]);
         }
         if (parentEevee == null || friendEeveeState != FriendState.Neutral)
         {
@@ -621,6 +645,7 @@ public class ChildEnemyAI : GrabbableObject
 
     private void HandleStateScaredChange()
     {
+        eeveeSource.PlayOneShot(scaredSounds[UnityEngine.Random.Range(0, scaredSounds.Length)]);
     }
 
     private void HandleStateDancingChange()
@@ -657,6 +682,7 @@ public class ChildEnemyAI : GrabbableObject
     public void DoHitStuffClientRpc()
     {
         health--;
+        eeveeSource.PlayOneShot(hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)]);
         // logic for hitting
         if (health <= 0)
         {
@@ -688,5 +714,10 @@ public class ChildEnemyAI : GrabbableObject
             return;
         }
         nearbyPlayer = StartOfRound.Instance.allPlayerScripts[playerToFollowIndex];
+    }
+
+    public void PlayFootstepSoundAnimEvent()
+    {
+        eeveeSource.PlayOneShot(footstepSounds[UnityEngine.Random.Range(0, footstepSounds.Length)], 0.5f);
     }
 }
