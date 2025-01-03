@@ -29,4 +29,13 @@ source = "../../EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeF
 target = "plugins/EeveeFrenzy/Assets/"
 
 [[build.copy]]
-source = "../../EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeFrenzy/AssetBundl
+source = "../../EeveeFrenzyUnityProject/Assets/LethalCompany/Mods/plugins/EeveeFrenzy/AssetBundles/eeveelutionassets"
+target = "plugins/EeveeFrenzy/Assets/"
+
+[[build.copy]]
+source = "./CHANGELOG.md"
+target = "/"
+
+[[build.copy]]
+source = "./LICENSE.md"
+target = "/"

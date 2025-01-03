@@ -394,28 +394,29 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
             return;
         }
 
-        if (IsServer)
-        {
-            creatureNetworkAnimator.SetTrigger(OnHitAnimation);
-        }
         if (holdingChild)
         {
             DropChild(true);
         }
-
+        bool didSpecialAttack = false;
         if (playerWhoHit != null)
         {
             if (specialAttackTimer <= 0)
             {
                 Plugin.ExtendedLogging("Special attack");
                 specialAttackTimer = 15f;
-                creatureNetworkAnimator.SetTrigger(SpecialMeleeAnimation);
+                if (IsServer) creatureNetworkAnimator.SetTrigger(SpecialMeleeAnimation);
+                didSpecialAttack = true;
                 creatureVoice.PlayOneShot(StartSpecialAttackSound);
             }
             if (currentBehaviourStateIndex != (int)State.ChasingPlayer)
             {
                 AggroOnHit(playerWhoHit);
             }
+        }
+        if (!didSpecialAttack && IsServer)
+        {
+            creatureNetworkAnimator.SetTrigger(OnHitAnimation);
         }
         Plugin.ExtendedLogging($"Enemy HP: {enemyHP}");
         Plugin.ExtendedLogging($"Hit with force {force}");

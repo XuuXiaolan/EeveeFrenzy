@@ -43,14 +43,14 @@ public class EnemyHandler : ContentHandler<EnemyHandler>
         {
             PokemonEnemies = new PokemonEnemyAssets("eeveelutionassets");
             RegisterScrapWithConfig("", PokemonEnemies.ChildEeveeItem, -1, -1);
-            RegisterEnemyWithConfig("", PokemonEnemies.UmbreonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.VaporeonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.JolteonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.EspeonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.GlaceonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.MechaSylveonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.FlareonEnemyType, null, null, 2, 1);
-            RegisterEnemyWithConfig("", PokemonEnemies.LeafeonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigUmbreonSpawnWeight.Value, PokemonEnemies.UmbreonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigVaporeonSpawnWeight.Value, PokemonEnemies.VaporeonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigJolteonSpawnWeight.Value, PokemonEnemies.JolteonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigEspeonSpawnWeight.Value, PokemonEnemies.EspeonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigGlaceonSpawnWeight.Value, PokemonEnemies.GlaceonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigMechaSylveonSpawnWeight.Value, PokemonEnemies.MechaSylveonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigFlareonSpawnWeight.Value, PokemonEnemies.FlareonEnemyType, null, null, 2, 1);
+            RegisterEnemyWithConfig(Plugin.ModConfig.ConfigLeafeonSpawnWeight.Value, PokemonEnemies.LeafeonEnemyType, null, null, 2, 1);
         }
     }
 }

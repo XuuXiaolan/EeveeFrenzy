@@ -573,7 +573,7 @@ public class ChildEnemyAI : GrabbableObject
         State stateToSwitchTo = (State)state;
         if (state == -1) return;
         smartAgentNavigator.StopSearchRoutine();
-        DisableOrEnableAllCollidersAndAgent(true);
+        if (!animator.GetBool(isChildDeadAnimation)) DisableOrEnableAllCollidersAndAgent(true);
         switch (stateToSwitchTo)
         {
             case State.Spawning:
@@ -660,13 +660,16 @@ public class ChildEnemyAI : GrabbableObject
         // logic for hitting
         if (health <= 0)
         {
-            animator.SetBool(isChildDeadAnimation, true);
+            if (IsServer) animator.SetBool(isChildDeadAnimation, true);
             smartAgentNavigator.OnEnterOrExitElevator.RemoveListener(OnEnterOrExitElevator);
             smartAgentNavigator.OnUseEntranceTeleport.RemoveListener(OnUseEntranceTeleport);
+            smartAgentNavigator.StopSearchRoutine();
             smartAgentNavigator.ResetAllValues();
+            smartAgentNavigator.enabled = false;
             agent.enabled = false;
             grabbable = false;
             grabbableToEnemies = true;
+            Destroy(this.GetComponent<ChildEnemyAI>());
         }
     }
 

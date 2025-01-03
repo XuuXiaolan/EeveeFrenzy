@@ -861,6 +861,7 @@ GameObject:
   - component: {fileID: 1852524711466110361}
   - component: {fileID: 5925437453963375493}
   - component: {fileID: 7252020365545602513}
+  - component: {fileID: 3986456535651413903}
   m_Layer: 19
   m_Name: DoorCollider
   m_TagString: Enemy
@@ -931,6 +932,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3986456535651413903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938673259504179077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7127b8f98ca8ec9896b384a71d39a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainScript: {fileID: 9216845174091606123}
+  canCollideWithEnemies: 0
+  onlyCollideWhenGrounded: 0
 --- !u!1 &2157232775616013646
 GameObject:
   m_ObjectHideFlags: 0
