@@ -39,7 +39,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     private float specialAttackTimer = 15f;
     private bool CloseToEevee => Vector3.Distance(childEevee.transform.position, this.transform.position) <= 10;
     [NonSerialized] public Vector3 spawnPosition = Vector3.zero;
-    private ChildEnemyAI childEevee = null!;
+    private ChildEnemyAI? childEevee = null;
     private float timeSinceHittingLocalPlayer = 0f;
     [NonSerialized] public bool holdingChild = false;
     [NonSerialized] public bool isSpawnInside = true;
@@ -289,7 +289,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     public override void DoAIInterval()
     {
         base.DoAIInterval();
-        if (isEnemyDead || StartOfRound.Instance.allPlayersDead || !IsHost) return;
+        if (isEnemyDead || StartOfRound.Instance.allPlayersDead || !IsHost || childEevee == null) return;
         creatureAnimator.SetFloat(RunSpeedFloat, agent.velocity.magnitude / 2);
 
         switch (currentBehaviourStateIndex)
@@ -392,10 +392,10 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
     public override void HitEnemy(int force = 1, PlayerControllerB? playerWhoHit = null, bool playHitSFX = false, int hitID = -1)
     {
         base.HitEnemy(force, playerWhoHit, playHitSFX, hitID);
+        if (isEnemyDead || currentBehaviourStateIndex == (int)State.Death) return;
         
         creatureVoice.PlayOneShot(hitSounds[enemyRandom.Next(0, hitSounds.Length)]);
         agent.velocity /= 1.4f;
-        if (isEnemyDead || currentBehaviourStateIndex == (int)State.Death) return;
 
         enemyHP -= force;
         if (IsOwner && enemyHP <= 0 && !isEnemyDead)
@@ -539,6 +539,8 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
 
     private IEnumerator GrabChild(GrabbableObject child, Transform mouthTransform)
     {
+        child.grabbable = false;
+        child.grabbableToEnemies = false;
         yield return new WaitForSeconds(0.2f);
         child.isInElevator = false;
         child.isInShipRoom = false;

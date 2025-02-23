@@ -30,7 +30,7 @@ public class ChildEnemyAI : GrabbableObject
     public AudioClip[] footstepSounds = [];
 
     [HideInInspector] public ParentEnemyAI? parentEevee;
-    [HideInInspector] public int health = 4;
+    [HideInInspector] public NetworkVariable<int> health = new NetworkVariable<int>(4, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public bool mommyAlive = true;
     [HideInInspector] public float[] friendShipMeterGoals = new float[3] { 0f, 20f, 50f };
     private float idleTimer = 0f;
@@ -102,11 +102,15 @@ public class ChildEnemyAI : GrabbableObject
         }
         else
         {
+            if (IsServer) animator.SetBool(isSittingAnimation, true);
+            isSitting = true;
             smartAgentNavigator.SetAllValues(true);
             isInFactory = false;
             friendEeveeState = FriendState.Tamed;
             agent.enabled = false;
             smartAgentNavigator.enabled = false;
+            this.transform.position = StartOfRound.Instance.shipBounds.bounds.center;
+            return;
         }
         if (!IsServer) return;
         HandleStateAnimationSpeedChanges(State.Spawning);
@@ -121,7 +125,12 @@ public class ChildEnemyAI : GrabbableObject
     public override void DiscardItem()
     {
         base.DiscardItem();
-        if (parentEevee == null) return;
+        if (parentEevee == null || StartOfRound.Instance.shipIsLeaving)
+        {
+            if (IsServer) animator.SetBool(isSittingAnimation, true);
+            isSitting = true;
+            return;
+        }
         parentEevee.canGrabChild = false;
         if (grabbingRoutine != null)
         {
@@ -226,7 +235,7 @@ public class ChildEnemyAI : GrabbableObject
 
     public override void Update()
     {
-        if ((parentEevee == null || parentEevee.isEnemyDead) && StartOfRound.Instance.shipBounds.bounds.Contains(this.transform.position))
+        if ((parentEevee == null || parentEevee.isEnemyDead || StartOfRound.Instance.shipIsLeaving) && StartOfRound.Instance.shipBounds.bounds.Contains(this.transform.position))
         {
             agent.enabled = false;
             smartAgentNavigator.StopSearchRoutine();
@@ -660,6 +669,7 @@ public class ChildEnemyAI : GrabbableObject
 
     public void OnUseEntranceTeleport(bool setOutside)
     {
+        EnableItemMeshes(true);
     }
 
     public void OnEnterOrExitElevator(bool enteredElevator)
@@ -675,18 +685,18 @@ public class ChildEnemyAI : GrabbableObject
     [ServerRpc(RequireOwnership = false)]
     private void DoHitStuffServerRpc()
     {
+        health.Value--;
+        if (health.Value <= 0) animator.SetBool(isChildDeadAnimation, true);
         DoHitStuffClientRpc();
     }
 
     [ClientRpc]
     public void DoHitStuffClientRpc()
     {
-        health--;
         eeveeSource.PlayOneShot(hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)]);
         // logic for hitting
-        if (health <= 0)
+        if (health.Value <= 0)
         {
-            if (IsServer) animator.SetBool(isChildDeadAnimation, true);
             smartAgentNavigator.OnEnterOrExitElevator.RemoveListener(OnEnterOrExitElevator);
             smartAgentNavigator.OnUseEntranceTeleport.RemoveListener(OnUseEntranceTeleport);
             smartAgentNavigator.StopSearchRoutine();

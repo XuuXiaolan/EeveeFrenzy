@@ -7,7 +7,7 @@
     <AssemblyName>EeveeFrenzy</AssemblyName>
 		<!-- This assembly description doesn't show up on Thunderstore. -->
     <!-- Configure description for Thunderstore at ./Thunderstore/thunderstore.toml -->
-    <Description>I need to fill this in!</Description>
+    <Description>Mod that adds 7 eeveelutions as new enemies!!</Description>
 		<!-- This is required for BepInEx to load us properly. -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<!-- This allows you to use C#11 features, for the most part. -->
