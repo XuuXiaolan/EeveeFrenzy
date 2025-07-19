@@ -1,6 +1,6 @@
 # v0.1.1
 
-- Lowered the volume of basically everything by half.
+- Lowered the volume of basically everything by half and added a config for volume multiplier.
 
 ## v0.1.0
 
