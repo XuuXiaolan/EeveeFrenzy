@@ -1,4 +1,8 @@
-# v0.1.0
+# v0.1.1
+
+- Lowered the volume of basically everything by half.
+
+## v0.1.0
 
 - Fixed invisible bug with cullfactory i think.
 - Fixed pathfinding errors on lobby load.

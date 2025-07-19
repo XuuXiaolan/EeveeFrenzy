@@ -15,8 +15,9 @@ public class EeveeFrenzyConfig
     public ConfigEntry<string> ConfigGlaceonSpawnWeight { get; private set; }
     public ConfigEntry<string> ConfigVaporeonSpawnWeight { get; private set; }
     public ConfigEntry<string> ConfigFlareonSpawnWeight { get; private set; }
+    public ConfigEntry<float> ConfigEverythingVolumeMultiplier { get; private set; }
 
-    #endregion 
+    #endregion
     public EeveeFrenzyConfig(ConfigFile configFile)
     {
         configFile.SaveOnConfigSet = false;
@@ -28,6 +29,10 @@ public class EeveeFrenzyConfig
                                             "Whether extended logging is enabled.");
         #endregion
         #region Eevee Frenzy
+        ConfigEverythingVolumeMultiplier = configFile.Bind("Eevee Frenzy",
+                                            "Everything Volume Multiplier",
+                                            0.5f,
+                                            "Volume multiplier for Eevee Frenzy.");
         ConfigUmbreonSpawnWeight = configFile.Bind("Eevee Frenzy",
                                             "Umbreon Spawn Weight",
                                             "Vanilla:10,Custom:10",

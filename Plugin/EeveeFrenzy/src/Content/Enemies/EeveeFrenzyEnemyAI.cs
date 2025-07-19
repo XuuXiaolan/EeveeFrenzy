@@ -17,6 +17,9 @@ public abstract class EeveeFrenzyEnemyAI : EnemyAI
     public override void Start()
     {
         base.Start();
+        creatureVoice.volume *= Plugin.ModConfig.ConfigEverythingVolumeMultiplier.Value;
+        creatureSFX.volume *= Plugin.ModConfig.ConfigEverythingVolumeMultiplier.Value;
+
         smartAgentNavigator.OnUseEntranceTeleport.AddListener(SetEnemyOutside);
         smartAgentNavigator.SetAllValues(isOutside);
         Plugin.ExtendedLogging(enemyType.enemyName + " Spawned.");

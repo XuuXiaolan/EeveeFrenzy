@@ -80,6 +80,7 @@ public class ChildEnemyAI : GrabbableObject
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        eeveeSource.volume *= Plugin.ModConfig.ConfigEverythingVolumeMultiplier.Value;
         foreach (var player in StartOfRound.Instance.allPlayerScripts)
         {
             if (friendShipMeterPlayers.ContainsKey(player)) continue;
