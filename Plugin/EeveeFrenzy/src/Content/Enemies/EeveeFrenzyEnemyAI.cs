@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using System;
-using EeveeFrenzy.src.MiscScripts;
+using Dawn.Utils;
 
 namespace EeveeFrenzy.src.Content.Enemies;
 [RequireComponent(typeof(SmartAgentNavigator))]

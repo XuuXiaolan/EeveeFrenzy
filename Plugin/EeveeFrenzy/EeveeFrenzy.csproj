@@ -29,10 +29,16 @@
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
-	  <PackageReference Include="Evaisa.LethalLib" Version="0.*" />
-    <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" PrivateAssets="all"/>    
-    <PackageReference Include="LethalCompany.GameLibs.Steam" Version="*-*" PrivateAssets="all" />
-    <PackageReference Include="IAmBatby.LethalLevelLoader" Version="1.3.1" />
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.62" IncludeAssets="compile" PrivateAssets="all"/>    
+    <PackageReference Include="LethalCompany.GameLibs.Steam" Version="73.0.0-ngd.0" PrivateAssets="all" />
+    <PackageReference Include="TeamXiaolan.DawnLib" Version="0.4.3" PrivateAssets="all"/>
+    <PackageReference Include="TeamXiaolan.DawnLib.DuskMod" Version="0.4.3" PrivateAssets="all"/>
+    <PackageReference Include="TeamXiaolan.DawnLib.SourceGen" Version="0.4.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="res\namespaced_keys.json" />
+    <AdditionalFiles Include="res\namespaced_keys.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,7 +58,16 @@
     <NetcodePatch Include="$(TargetPath)" />
   </ItemGroup>
   -->
-  <Target Name="NetcodePatch" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')" />
-  </Target>
+    <!-- Netcode Patcher Post-Build Event -->
+    <Sdk Name="Evaisa.NetcodePatcher.MSBuild" Version="4.4.1" />
+    <ItemGroup>
+        <NetcodePatch Include="$(TargetPath)" />
+    </ItemGroup>
+
+    <!-- Netcode Patcher -->
+    <PropertyGroup>
+        <NetcodePatcherUnityVersion>2022.3.62</NetcodePatcherUnityVersion>
+        <NetcodePatcherNetcodeVersion>1.12.0</NetcodePatcherNetcodeVersion>
+        <NetcodePatcherTransportVersion>1.0.0</NetcodePatcherTransportVersion>
+    </PropertyGroup>
 </Project>

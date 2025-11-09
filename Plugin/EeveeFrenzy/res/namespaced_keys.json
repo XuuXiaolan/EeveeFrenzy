@@ -1,0 +1,17 @@
+{
+  "EeveeFrenzyEnemyKeys": {
+    "__type": "DawnEnemyInfo",
+    "Espeon": "eevee_frenzy:espeon",
+    "Flareon": "eevee_frenzy:flareon",
+    "Glaceon": "eevee_frenzy:glaceon",
+    "Jolteon": "eevee_frenzy:jolteon",
+    "Leafeon": "eevee_frenzy:leafeon",
+    "MechaSylveon": "eevee_frenzy:mechasylveon",
+    "Umbreon": "eevee_frenzy:umbreon",
+    "Vaporeon": "eevee_frenzy:vaporeon"
+  },
+  "EeveeFrenzyItemKeys": {
+    "__type": "DawnItemInfo",
+    "ChildEevee": "eevee_frenzy:child_eevee"
+  }
+}

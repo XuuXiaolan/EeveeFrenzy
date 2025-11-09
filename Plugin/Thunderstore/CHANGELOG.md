@@ -1,4 +1,9 @@
-# v0.1.1
+# v1.0.0
+
+- Updated for v73.
+- Updated for DawnLib.
+
+## v0.1.1
 
 - Lowered the volume of basically everything by half and added a config for volume multiplier.
 

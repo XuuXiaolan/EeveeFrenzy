@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using EeveeFrenzy.src.Content.Enemies;
 using Unity.Netcode;
 using UnityEngine;
 using Random = System.Random;
-using EeveeFrenzy.src.Util.Extensions;
 
 namespace EeveeFrenzy.src.Util;
 internal class EeveeFrenzyUtils : NetworkBehaviour
@@ -17,53 +14,92 @@ internal class EeveeFrenzyUtils : NetworkBehaviour
         Instance = this;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnScrapServerRpc(string itemName, Vector3 position, bool defaultRotation = true, int valueIncrease = 0)
+    public NetworkObjectReference SpawnScrap(Item? item, Vector3 position, bool defaultRotation, int valueIncrease, Quaternion rotation = default)
     {
-        if (itemName == string.Empty)
-        {
-            return;
-        }
-        Plugin.samplePrefabs.TryGetValue(itemName, out Item item);
-        if (item == null)
-        {
-            // throw for stacktrace
-            Plugin.Logger.LogError($"'{itemName}' either isn't a EeveeFrenzy scrap or not registered! This method only handles EeveeFrenzy scrap!");
-            return;
-        }
-        SpawnScrap(item, position, defaultRotation, valueIncrease);
-    }
-
-    public NetworkObjectReference SpawnScrap(Item item, Vector3 position, bool defaultRotation, int valueIncrease)
-    {
-        if (StartOfRound.Instance == null)
+        if (StartOfRound.Instance == null || item == null)
         {
             return default;
         }
-        
-        random ??= new Random(StartOfRound.Instance.randomMapSeed + 85);
 
         Transform? parent = null;
         if (parent == null)
         {
             parent = StartOfRound.Instance.propsContainer;
         }
-        GameObject go = Instantiate(item.spawnPrefab, position + Vector3.up * 0.2f, defaultRotation == true ? Quaternion.Euler(item.restingRotation) : Quaternion.identity, parent);
-        go.GetComponent<NetworkObject>().Spawn();
-        int value = (int)(random.NextInt(item.minValue, item.maxValue) * RoundManager.Instance.scrapValueMultiplier) + valueIncrease;
-        var scanNode = go.GetComponentInChildren<ScanNodeProperties>();
-        scanNode.scrapValue = value;
-        scanNode.subText = $"Value: ${value}";
-        go.GetComponent<GrabbableObject>().scrapValue = value;
-        UpdateScanNodeClientRpc(new NetworkObjectReference(go), value);
+
+        Vector3 spawnPosition = position;
+        if (Physics.Raycast(position + Vector3.up * 1f, Vector3.down, out RaycastHit hit, 100f, StartOfRound.Instance.collidersAndRoomMaskAndDefault, QueryTriggerInteraction.Ignore))
+        {
+            spawnPosition = hit.point + Vector3.up * item.verticalOffset;
+        }
+
+        GameObject go = Instantiate(item.spawnPrefab, spawnPosition + Vector3.up * 0.2f, Quaternion.identity, parent);
+        GrabbableObject grabbableObject = go.GetComponent<GrabbableObject>();
+        NetworkObject networkObject = grabbableObject.NetworkObject;
+        grabbableObject.fallTime = 0;
+        networkObject.Spawn();
+        UpdateParentAndRotationsServerRpc(new NetworkObjectReference(go), defaultRotation ? Quaternion.Euler(item.restingRotation) : rotation);
+
+        int value = (int)(UnityEngine.Random.Range(item.minValue, item.maxValue) * RoundManager.Instance.scrapValueMultiplier) + valueIncrease;
+        ScanNodeProperties? scanNodeProperties = go.GetComponentInChildren<ScanNodeProperties>();
+        if (scanNodeProperties != null)
+        {
+            scanNodeProperties.scrapValue = value;
+            scanNodeProperties.subText = $"Value: ${value}";
+            grabbableObject.scrapValue = value;
+            UpdateScanNodeServerRpc(new NetworkObjectReference(networkObject), value);
+        }
         return new NetworkObjectReference(go);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateParentAndRotationsServerRpc(NetworkObjectReference go, Quaternion rotation)
+    {
+        UpdateParentAndRotationsClientRpc(go, rotation);
+    }
+
+    [ClientRpc]
+    public void UpdateParentAndRotationsClientRpc(NetworkObjectReference go, Quaternion rotation)
+    {
+        go.TryGet(out NetworkObject netObj);
+        if (netObj != null)
+        {
+            if (netObj.AutoObjectParentSync && IsServer)
+            {
+                netObj.transform.parent = StartOfRound.Instance.propsContainer;
+            }
+            else if (!netObj.AutoObjectParentSync)
+            {
+                netObj.transform.parent = StartOfRound.Instance.propsContainer;
+            }
+            Plugin.ExtendedLogging($"This object just spawned: {netObj.gameObject.name}");
+            StartCoroutine(ForceRotationForABit(netObj.gameObject, rotation));
+        }
+    }
+
+    private IEnumerator ForceRotationForABit(GameObject go, Quaternion rotation)
+    {
+        float duration = 0.25f;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            go.transform.rotation = rotation;
+            yield return null;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateScanNodeServerRpc(NetworkObjectReference go, int value)
+    {
+        UpdateScanNodeClientRpc(go, value);
     }
 
     [ClientRpc]
     public void UpdateScanNodeClientRpc(NetworkObjectReference go, int value)
     {
         go.TryGet(out NetworkObject netObj);
-        if(netObj != null)
+        if (netObj != null)
         {
             if (netObj.gameObject.TryGetComponent(out GrabbableObject grabbableObject))
             {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Dawn;
 using EeveeFrenzy.src.Content.Items;
 using EeveeFrenzy.src.Util;
 using EeveeFrenzy.src.Util.Extensions;
@@ -116,7 +117,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         agent.speed = 0f;
         agent.acceleration = 0f;
         enemyRandom = new System.Random(StartOfRound.Instance.randomMapSeed + 323);
-        if (enemyRandom.NextInt(1, 100) <= 5 && ShinyMaterials.Length != 0)
+        if (enemyRandom.Next(1, 100) <= 5 && ShinyMaterials.Length != 0)
         {
             this.skinnedMeshRenderers[0].materials = ShinyMaterials.ToArray();
         }
@@ -137,7 +138,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
 
     private void SpawnEeveeInNest()
     {
-        NetworkObjectReference go = EeveeFrenzyUtils.Instance.SpawnScrap(EnemyHandler.Instance.PokemonEnemies.ChildEeveeItem, spawnPosition, true, 0);
+        NetworkObjectReference go = EeveeFrenzyUtils.Instance.SpawnScrap(LethalContent.Items[EeveeFrenzyItemKeys.ChildEevee].Item, spawnPosition, true, 0);
         SpawnEggInNestClientRpc(go);
     }
 
@@ -248,7 +249,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
 
     private void HandleStateWanderingChange()
     {
-        smartAgentNavigator.StartSearchRoutine(transform.position, 40);
+        smartAgentNavigator.StartSearchRoutine(40f);
         agent.speed = WalkingSpeed;
         agent.acceleration = Acceleration; 
     }
@@ -319,7 +320,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
                 Plugin.ExtendedLogging($"dotProduct: {dotProduct}, distance: {distance}");
                 if (distance <= 10 && dotProduct > 0.5)
                 {
-                    smartAgentNavigator.DoPathingToDestination(childEevee.transform.position, childEevee.isInFactory, false, null);
+                    smartAgentNavigator.DoPathingToDestination(childEevee.transform.position);
                     this.transform.rotation = Quaternion.LookRotation(player.transform.position - this.transform.position);
                     // player is close and looking at eevee's direction.
                     if (distance <= 8 && Vector3.Distance(player.transform.position, spawnPosition) <= 30)
@@ -344,7 +345,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         if (holdingChild)
         {
             Plugin.ExtendedLogging("Dropping child onto the ground at position: " + spawnPosition + " | Which is current inside: " + isSpawnInside);
-            smartAgentNavigator.DoPathingToDestination(spawnPosition, isSpawnInside, false, null);
+            smartAgentNavigator.DoPathingToDestination(spawnPosition);
             if (Vector3.Distance(spawnPosition, this.transform.position) <= 2.5)
             {
                 Plugin.ExtendedLogging("Dropping child onto the ground at position: " + spawnPosition);
@@ -355,7 +356,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         }
         else // come to this state after hitting a player and making them drop the eevee, so eevee wont be held by anyone really
         {
-            smartAgentNavigator.DoPathingToDestination(childEevee.transform.position, childEevee.isInFactory, false, null);
+            smartAgentNavigator.DoPathingToDestination(childEevee.transform.position);
             if (Vector3.Distance(childEevee.transform.position, this.transform.position) <= 2.5 && canGrabChild)
             {
                 holdingChild = true;
@@ -382,7 +383,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
             HandleStateAnimationSpeedChanges(State.Guarding);
             return;
         }
-        smartAgentNavigator.DoPathingToDestination(targetPlayer.transform.position, targetPlayer.isInsideFactory, true, targetPlayer);
+        smartAgentNavigator.DoPathingToDestination(targetPlayer.transform.position);
         if (Vector3.Distance(targetPlayer.transform.position, this.transform.position) <= 3)
         {
             creatureNetworkAnimator.SetTrigger(MeleeAnimation);
@@ -449,8 +450,10 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         {
             DropChild(true);
         }
-        if (childEevee != null) childEevee.mommyAlive = false;
-        smartAgentNavigator.ResetAllValues();
+        if (childEevee != null)
+        {
+            childEevee.mommyAlive = false;
+        }
         creatureVoice.PlayOneShot(deathSounds[enemyRandom.Next(0, deathSounds.Length)]);
     }
 
