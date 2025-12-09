@@ -32,8 +32,9 @@ public class Plugin : BaseUnityPlugin {
 
         DoorLockPatch.Init();
         _harmony.PatchAll(typeof(StartOfRoundPatch));
-        
+
         AssetBundle mainBundle = AssetBundleUtils.LoadBundle(Assembly.GetExecutingAssembly(), "eeveefrenzyassets");
+        Assets = new MainAssets(mainBundle);
         Mod = DuskMod.RegisterMod(this, mainBundle);
         Mod.Logger = Logger;
 

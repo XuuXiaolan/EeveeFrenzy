@@ -116,7 +116,7 @@ public class ParentEnemyAI : EeveeFrenzyEnemyAI
         base.Start();
         agent.speed = 0f;
         agent.acceleration = 0f;
-        enemyRandom = new System.Random(StartOfRound.Instance.randomMapSeed + 323);
+        enemyRandom = new System.Random(StartOfRound.Instance.randomMapSeed + 323 + RoundManager.Instance.SpawnedEnemies.Count);
         if (enemyRandom.Next(1, 100) <= 5 && ShinyMaterials.Length != 0)
         {
             this.skinnedMeshRenderers[0].materials = ShinyMaterials.ToArray();

@@ -12,8 +12,7 @@ websiteUrl = "https://github.com/XuuXiao/EeveeFrenzy"
 containsNsfwContent = false
 [package.dependencies]
 BepInEx-BepInExPack = "5.4.2100"
-Evaisa-LethalLib = "0.16.1"
-IAmBatby-LethalLevelLoader = "1.3.8"
+TeamXiaolan-DawnLib = "0.4.4"
 
 [build]
 icon = "./icon.png"

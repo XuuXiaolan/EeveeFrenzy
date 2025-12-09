@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 9223160148399527243}
   - component: {fileID: 4215464511279002968}
   - component: {fileID: 2558434761189704542}
-  - component: {fileID: 623395228565778507}
+  - component: {fileID: 2486894212633254057}
   m_Layer: 6
   m_Name: Eevee
   m_TagString: PhysicsProp
@@ -277,7 +277,7 @@ MonoBehaviour:
   agent: {fileID: 8031758132313903240}
   animator: {fileID: 1500565791232189235}
   networkAnimator: {fileID: 6852631430355819521}
-  smartAgentNavigator: {fileID: 623395228565778507}
+  smartAgentNavigator: {fileID: 2486894212633254057}
   rangeOfDetection: 15
   eeveeSource: {fileID: 9223160148399527243}
   spawnSound: {fileID: 8300000, guid: 17e7231f538e24c4db81e4d8cddc832b, type: 3}
@@ -310,7 +310,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9080ff52546b9bb41aace3aa6c80f3ed, type: 3}
   - {fileID: 8300000, guid: e56b336e512860045a80a8401ce3041b, type: 3}
   parentEevee: {fileID: 0}
-  health: 4
+  health:
+    m_InternalValue: 4
   mommyAlive: 1
   friendShipMeterGoals:
   - 0
@@ -542,7 +543,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.42841655, y: 0.52528787, z: 0.6597614}
   m_Center: {x: -0.015119553, y: 0.2693467, z: -0.012162089}
---- !u!114 &623395228565778507
+--- !u!114 &2486894212633254057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -551,9 +552,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 692313183448370477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
+  m_Script: {fileID: 1066262130, guid: 7e726970c2c612f45ac6db95335ac23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnUseEntranceTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnableOrDisableAgent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastUsedEntranceTeleport: {fileID: 0}
+  agent: {fileID: 0}
+  _nodeRemovalPrecision: 5
+  _allowedLinks: 1
 --- !u!1 &730092208544115723
 GameObject:
   m_ObjectHideFlags: 0

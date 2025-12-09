@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Dawn.Utils;
 using EeveeFrenzy.src.Content.Enemies;
-using EeveeFrenzy.src.MiscScripts;
 using GameNetcodeStuff;
 using Unity.Netcode;
 using Unity.Netcode.Components;
@@ -94,7 +93,6 @@ public class ChildEnemyAI : GrabbableObject
         base.Start();
         eeveeSource.PlayOneShot(spawnSound);
         fallTime = 0f;
-        smartAgentNavigator.OnEnterOrExitElevator.AddListener(OnEnterOrExitElevator);
         smartAgentNavigator.OnUseEntranceTeleport.AddListener(OnUseEntranceTeleport);
         if (parentEevee != null) 
         {
@@ -390,12 +388,12 @@ public class ChildEnemyAI : GrabbableObject
         }
         if (parentEevee == null || friendEeveeState != FriendState.Neutral)
         {
-            smartAgentNavigator.DoPathingToDestination(nearbyPlayer.transform.position, nearbyPlayer.isInsideFactory, true, nearbyPlayer);
+            smartAgentNavigator.DoPathingToDestination(nearbyPlayer.transform.position);
             return;
         }
         if (Vector3.Distance(transform.position, parentEevee.spawnPosition) <= 25f)
         {
-            smartAgentNavigator.DoPathingToDestination(nearbyPlayer.transform.position, nearbyPlayer.isInsideFactory, true, nearbyPlayer);
+            smartAgentNavigator.DoPathingToDestination(nearbyPlayer.transform.position);
         }
         else
         {
@@ -646,7 +644,7 @@ public class ChildEnemyAI : GrabbableObject
 
     private void HandleStateWanderingChange()
     {
-        if (IsServer) smartAgentNavigator.StartSearchRoutine(transform.position, 40);
+        if (IsServer) smartAgentNavigator.StartSearchRoutine(40);
     }
 
     private void HandleStateFollowingPlayerChange()
@@ -698,10 +696,8 @@ public class ChildEnemyAI : GrabbableObject
         // logic for hitting
         if (health.Value <= 0)
         {
-            smartAgentNavigator.OnEnterOrExitElevator.RemoveListener(OnEnterOrExitElevator);
             smartAgentNavigator.OnUseEntranceTeleport.RemoveListener(OnUseEntranceTeleport);
             smartAgentNavigator.StopSearchRoutine();
-            smartAgentNavigator.ResetAllValues();
             smartAgentNavigator.enabled = false;
             agent.enabled = false;
             grabbable = false;

@@ -3857,8 +3857,8 @@ GameObject:
   - component: {fileID: 5812598480185552323}
   - component: {fileID: 5030034770906921462}
   - component: {fileID: 8362973255370228008}
-  - component: {fileID: 8963747313473500321}
   - component: {fileID: 5623963045118778219}
+  - component: {fileID: 2243139815374022498}
   m_Layer: 19
   m_Name: Glaceon
   m_TagString: Enemy
@@ -4152,7 +4152,7 @@ MonoBehaviour:
   isOutside: 0
   hitsPhysicsObjects: 0
   gotFarthestNodeAsync: 0
-  smartAgentNavigator: {fileID: 8963747313473500321}
+  smartAgentNavigator: {fileID: 2243139815374022498}
   Acceleration: 40
   WalkingSpeed: 4
   SprintingSpeed: 9
@@ -4190,18 +4190,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 350b7dd86272bd84fa200ecfa10cb17a, type: 3}
   MouthTransform: {fileID: 738584470465963249}
   creatureNetworkAnimator: {fileID: 5030034770906921462}
---- !u!114 &8963747313473500321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7511872010158336153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &5623963045118778219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4223,6 +4211,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.24252044, y: 0.27226478, z: 0.5}
   m_Center: {x: 0.03292222, y: 0.35669684, z: 0}
+--- !u!114 &2243139815374022498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7511872010158336153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1066262130, guid: 7e726970c2c612f45ac6db95335ac23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUseEntranceTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnableOrDisableAgent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastUsedEntranceTeleport: {fileID: 0}
+  agent: {fileID: 0}
+  _nodeRemovalPrecision: 5
+  _allowedLinks: -1
 --- !u!1 &7551500856500209458
 GameObject:
   m_ObjectHideFlags: 0

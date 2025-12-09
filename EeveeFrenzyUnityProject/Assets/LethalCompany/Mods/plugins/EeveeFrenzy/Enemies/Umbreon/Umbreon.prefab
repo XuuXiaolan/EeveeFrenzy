@@ -1293,12 +1293,12 @@ GameObject:
   - component: {fileID: 8083899577012001172}
   - component: {fileID: 4057338503708699780}
   - component: {fileID: 5473807502361491902}
-  - component: {fileID: 5756654158619974977}
   - component: {fileID: 8515501475341006347}
   - component: {fileID: 6395640511515706596}
   - component: {fileID: 4671361502365746998}
   - component: {fileID: 174905916859505228}
   - component: {fileID: 6446524815932307724}
+  - component: {fileID: 2872598552479685567}
   m_Layer: 19
   m_Name: Umbreon
   m_TagString: Enemy
@@ -1381,18 +1381,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
---- !u!114 &5756654158619974977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091968025003749479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8515501475341006347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1528,7 +1516,7 @@ MonoBehaviour:
   isOutside: 0
   hitsPhysicsObjects: 0
   gotFarthestNodeAsync: 0
-  smartAgentNavigator: {fileID: 5756654158619974977}
+  smartAgentNavigator: {fileID: 2872598552479685567}
   Acceleration: 40
   WalkingSpeed: 4
   SprintingSpeed: 8
@@ -1665,6 +1653,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20250598, y: 0.78359497, z: 0.6248868}
   m_Center: {x: -0.01919732, y: 0.544425, z: -0.026042033}
+--- !u!114 &2872598552479685567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091968025003749479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1066262130, guid: 7e726970c2c612f45ac6db95335ac23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUseEntranceTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnableOrDisableAgent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastUsedEntranceTeleport: {fileID: 0}
+  agent: {fileID: 0}
+  _nodeRemovalPrecision: 5
+  _allowedLinks: -1
 --- !u!1 &2203570100219733779
 GameObject:
   m_ObjectHideFlags: 0

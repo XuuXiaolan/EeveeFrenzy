@@ -78,8 +78,8 @@ GameObject:
   - component: {fileID: 3498663336067265292}
   - component: {fileID: 3106481826249414207}
   - component: {fileID: 7556916597950857260}
-  - component: {fileID: 4790096720670267485}
   - component: {fileID: 6835810333864721366}
+  - component: {fileID: 486946239843753202}
   m_Layer: 19
   m_Name: Jolteon
   m_TagString: Enemy
@@ -373,7 +373,7 @@ MonoBehaviour:
   isOutside: 0
   hitsPhysicsObjects: 0
   gotFarthestNodeAsync: 0
-  smartAgentNavigator: {fileID: 4790096720670267485}
+  smartAgentNavigator: {fileID: 486946239843753202}
   Acceleration: 40
   WalkingSpeed: 4
   SprintingSpeed: 20
@@ -414,18 +414,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6a0e7f546b5a8e643a4b0bb7a894870a, type: 3}
   MouthTransform: {fileID: 8903301584186168081}
   creatureNetworkAnimator: {fileID: 3106481826249414207}
---- !u!114 &4790096720670267485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303591277601240011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &6835810333864721366
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -447,6 +435,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.24252044, y: 0.27226478, z: 0.5}
   m_Center: {x: 0.03292222, y: 0.35669684, z: 0}
+--- !u!114 &486946239843753202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303591277601240011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1066262130, guid: 7e726970c2c612f45ac6db95335ac23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUseEntranceTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnableOrDisableAgent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastUsedEntranceTeleport: {fileID: 0}
+  agent: {fileID: 0}
+  _nodeRemovalPrecision: 5
+  _allowedLinks: -1
 --- !u!1 &315910803640282465
 GameObject:
   m_ObjectHideFlags: 0

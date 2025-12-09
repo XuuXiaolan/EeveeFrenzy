@@ -4235,10 +4235,10 @@ GameObject:
   - component: {fileID: 2949706143875000979}
   - component: {fileID: 8361375201464439827}
   - component: {fileID: 3314792503186998553}
-  - component: {fileID: 2320557089338368697}
   - component: {fileID: 1566239074076645248}
   - component: {fileID: 4118966080661978789}
   - component: {fileID: 7342618931801432316}
+  - component: {fileID: 5594161260663913342}
   m_Layer: 19
   m_Name: Leafeon
   m_TagString: Enemy
@@ -4362,18 +4362,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &2320557089338368697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8647505887236049468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1688891628, guid: 2a7a0de1c9dc1e04eac72a143b3b3d1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1566239074076645248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4542,7 +4530,7 @@ MonoBehaviour:
   isOutside: 0
   hitsPhysicsObjects: 0
   gotFarthestNodeAsync: 0
-  smartAgentNavigator: {fileID: 2320557089338368697}
+  smartAgentNavigator: {fileID: 5594161260663913342}
   Acceleration: 40
   WalkingSpeed: 4
   SprintingSpeed: 12
@@ -4602,6 +4590,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.24252044, y: 0.27226478, z: 0.5}
   m_Center: {x: 0.03292222, y: 0.35669684, z: 0}
+--- !u!114 &5594161260663913342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647505887236049468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1066262130, guid: 7e726970c2c612f45ac6db95335ac23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUseEntranceTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnableOrDisableAgent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastUsedEntranceTeleport: {fileID: 0}
+  agent: {fileID: 0}
+  _nodeRemovalPrecision: 5
+  _allowedLinks: -1
 --- !u!1 &8675918956646600618
 GameObject:
   m_ObjectHideFlags: 0
